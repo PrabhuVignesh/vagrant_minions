@@ -1,0 +1,6 @@
+---
+- hosts: robin_dev
+  tasks:
+    - name: taking to App root
+      command: chdir=/home/vicky/safe/new_mailer/ foreman start
+ 

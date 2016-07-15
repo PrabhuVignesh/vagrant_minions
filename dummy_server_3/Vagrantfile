@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+Vagrant.configure(2) do |config|
+ 
+  config.vm.hostname = "dummy3lighttpd"
+
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.box_check_update = false
+  config.vm.network "private_network", ip: "172.28.128.16"
+  config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
+
+   config.vm.provider "virtualbox" do |vb|
+     # vb.gui = true
+  
+     # Customize the amount of memory on the VM:
+     vb.memory = "1024"
+   end
+
+  # config.push.define "atlas" do |push|
+  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
+  # end
+
+   config.vm.provision "shell", inline: <<-SHELL
+     sudo apt-get update
+     sudo apt-get install -y lighttpd
+   SHELL
+end
