@@ -10,14 +10,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
 
   config.vm.provider :virtualbox do |v|
-    v.name = "munin"
     v.memory = 256
     v.cpus = 1
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
-  config.vm.network :private_network, ip: "172.28.128.42"
+  config.vm.network :private_network, ip: "172.28.128.20"
   config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
   config.vm.define :munin do |munin|
   end
