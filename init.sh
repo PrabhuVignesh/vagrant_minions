@@ -3,7 +3,8 @@
 OS="`uname -a`"
 #ostype=( $OS )
 #echo ${ostype[1]}
-echo $OS | cut -d' ' -f2 
+echo $OS | cut -d' ' -f2
+echo "hello" 
 case $OS in
   'Linux')
     OS='Linux'
