@@ -58,8 +58,5 @@ Vagrant.configure(2) do |config|
       sudo make install
       sudo make install-xinetd
       sudo make install-daemon-config
-      sudo vi /etc/xinetd.d/nrpe
-      only_from = 127.0.0.1 10.132.224.168
-      sudo service xinetd restart
    SHELL
 end

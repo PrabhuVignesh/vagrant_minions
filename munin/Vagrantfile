@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.hostname = "munin"
   config.ssh.insert_key = false
-
+  config.vm.box_check_update = false
   config.vm.provider :virtualbox do |v|
     v.memory = 256
     v.cpus = 1

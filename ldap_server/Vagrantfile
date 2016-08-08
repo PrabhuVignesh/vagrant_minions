@@ -24,9 +24,9 @@ Vagrant.configure(2) do |config|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
 
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install -y slapd ldap-utils phpldapadmin
-    #sudo dpkg-reconfigure slapd #for reconfigure LDAP
-  SHELL
+  #config.vm.provision "shell", inline: <<-SHELL
+  #  sudo apt-get update
+  #  sudo apt-get install -y slapd ldap-utils phpldapadmin
+  #  #sudo dpkg-reconfigure slapd #for reconfigure LDAP
+  #SHELL
 end
