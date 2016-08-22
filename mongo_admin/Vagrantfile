@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+
+Vagrant.configure(2) do |config|
+ 
+  config.vm.hostname = "mongodbadmin"
+
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.box_check_update = false
+  config.vm.network "private_network", ip: "172.28.128.39"
+  config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
+
+   config.vm.provider "virtualbox" do |vb|
+     # vb.gui = true
+  
+     # Customize the amount of memory on the VM:
+     vb.memory = "256"
+   end
+
+  # config.push.define "atlas" do |push|
+  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
+  # end
+
+   config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get -y update
+    sudo apt-get -y install git
+    sudo apt-get -y install build-essential libssl-dev
+    curl https://raw.githubusercontent.com/creationix/nvm/v0.25.0/install.sh | bash
+    source ~/.profile
+    nvm install 4.0.0
+    cd ~
+    mkdir adminMongo
+    cd adminMongo && npm i admin-mongo
+    npm start
+    echo "Go and see http://172.28.128.39:1234
+   SHELL
+end
