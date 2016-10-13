@@ -5,7 +5,7 @@
 
 Vagrant.configure(2) do |config|
  
-  config.vm.hostname = "node1"
+  config.vm.hostname = "nodejslucy"
 
   config.vm.box = "ubuntu/trusty64"
 
@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
      # vb.gui = true
   
      # Customize the amount of memory on the VM:
-     vb.memory = "256"
+     vb.memory = "512"
    end
 
   # config.push.define "atlas" do |push|
@@ -25,7 +25,9 @@ Vagrant.configure(2) do |config|
   # end
 
 #   config.vm.provision "shell", inline: <<-SHELL
-#     sudo apt-get update
-#     sudo apt-get install -y apache2
+#     sudo apt-get -y update
+#     sudo apt-get install -y build-essential libssl-dev
+#     curl https://raw.githubusercontent.com/creationix/nvm/v0.25.0/install.sh | bash
+#     source ~/.profile
 #   SHELL
 end
