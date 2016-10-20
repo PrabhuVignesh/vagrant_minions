@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_check_update = false
+  config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
+  config.vm.define "packernode1" do |packernode1|
+      packernode1.vm.hostname = "packernode1"
+      packernode1.vm.network "private_network", ip: "172.28.128.60"
+      packernode1.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "packernode2" do |packernode2|
+      packernode2.vm.hostname = "packernode2"
+      packernode2.vm.network "private_network", ip: "172.28.128.61"
+      packernode2.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "packernode3" do |packernode3|
+      packernode3.vm.hostname = "packernode3"
+      packernode3.vm.network "private_network", ip: "172.28.128.62"
+      packernode3.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "packernode4" do |packernode4|
+      packernode4.vm.hostname = "packernode4"
+      packernode4.vm.network "private_network", ip: "172.28.128.63"
+      packernode4.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+end
