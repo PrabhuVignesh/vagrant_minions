@@ -2,33 +2,33 @@
 # vi: set ft=ruby :
 # Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
 
-
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 Vagrant.configure(2) do |config|
  
-  config.vm.hostname = "graylog"
+  config.vm.hostname = "gluu"
 
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.box_check_update = false
-  config.vm.network "private_network", ip: "172.28.128.50"
+  config.vm.network "private_network", ip: "172.28.128.49"
+  #config.vm.network "forwarded_port", guest: 80, host: 80
   config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents"
 
    config.vm.provider "virtualbox" do |vb|
      # vb.gui = true
   
      # Customize the amount of memory on the VM:
-     vb.memory = "512"
+     vb.memory = "4200"
    end
 
   # config.push.define "atlas" do |push|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
 
-   #config.vm.provision "shell", inline: <<-SHELL
-   #  sudo apt-get -y install apt-transport-https
-   #  wget https://packages.graylog2.org/repo/packages/graylog-2.1-repository_latest.deb
-   #  sudo dpkg -i graylog-2.1-repository_latest.deb
-   #  sudo apt-get -y update
-   #  sudo apt-get -y install graylog-server
-   #SHELL
+ # config.vm.provision "shell", inline: <<-SHELL
+ #  sudo echo "deb https://repo.gluu.org/ubuntu/ trusty main" > /etc/apt/sources.list.d/gluu-repo.list
+ #  sudo curl https://repo.gluu.org/ubuntu/gluu-apt.key | apt-key add -
+ #  sudo apt-get -y update
+ #  sudo apt-get -y install gluu-server-2.4.4
+ # SHELL
 end
