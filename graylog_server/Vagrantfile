@@ -3,22 +3,28 @@
 # Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
 
 
-
 Vagrant.configure(2)  do |config|
   config.vm.hostname = "graylogserver"
 
   config.vm.box = "ubuntu/trusty64"
-  config.vm.network "private_network", ip: "172.28.128.80"
-  config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
+
+  config.vm.box_check_update = false
+  config.vm.network "private_network", ip: "172.28.128.51"
+  #config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
+  config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents"
 
 
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 12201, host: 12201, protocol: 'udp'
   config.vm.network :forwarded_port, guest: 12201, host: 12201, protocol: 'tcp'
 
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 1048
-  end
+   config.vm.provider "virtualbox" do |vb|
+     # vb.gui = true
+  
+     # Customize the amount of memory on the VM:
+     vb.memory = "2048"
+   end
+
 
   $script = <<SCRIPT
     apt-get update
