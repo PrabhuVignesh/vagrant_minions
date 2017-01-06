@@ -31,8 +31,8 @@ body{
     height: 200px;
     border: 2px solid black;
     padding: 25px;
-    margin-left: 20%;    
-    margin-right: 20%;
+    margin-left: 10%;    
+    margin-right: 10%;
 }
 .heading{
 	width: 100%;
@@ -46,11 +46,38 @@ body{
 	padding: 3px;
     margin: 3px;
 }
-#logs{
+
+#logs {
 	font-size: 12px;
+	font-family:Courier;
+	background: #000;
+	border: 3px groove #ccc;
+	color: #ccc;
+	display: block;
+	padding: 5px;
+	width: 100%;
 }
 </style>
 <script language="VBScript">
+
+	Function status_finder(string)
+		Dim regEx, Match, Matches
+		Set regEx = New RegExp
+		regEx.Pattern = string
+		regEx.IgnoreCase = True
+		regEx.Global = true
+		str = "www.something.com/portal.asp?category=dhl"
+		Set Matches = regEx.Execute(str)
+		For Each Match in Matches
+			newstr = newstr & Match.Value
+		Next
+		If newstr = "" Then 
+			return false
+		Else
+			return true
+		End If
+	end Function
+
 
 Function getCommandOutput(theCommand)
 
@@ -156,6 +183,7 @@ end Function
 		<input id="halt_vagrant" value=""  />
 		<input value="Halt Vagrant" onClick="halt_vagrant" type="button"/>
 		<input value="Halt Vagrant" onClick="vagrant_status" type="button"/>
+		<input value="test me" onClick="status_finder('lalalal')" type="button"/>
 		<span id="logs"></span>
 	</span>
 	<div id="minions_container"></div>
