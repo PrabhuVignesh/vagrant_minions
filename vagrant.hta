@@ -1,0 +1,162 @@
+<head>
+<title>Vicky's Vagrant GUI</title>
+<HTA:APPLICATION 
+     APPLICATIONNAME="Vicky's Vagrant GUI"
+     SCROLL="yes"
+     SINGLEINSTANCE="yes"
+     WINDOWSTATE="maximize"
+>
+</head>
+
+<style>
+body{
+    margin-left: 10%;    
+    margin-right: 10%;
+}
+.minions_container{
+	width: 100%;
+	height: 100%;
+}
+.minions_inner_container{
+    background-color: lightgrey;
+    width: 300px;
+    border: 2px solid black;
+    padding: 25px;
+    margin: 25px;
+}
+.tasks_container{
+	float
+	background-color: lightgrey;
+    width: 100%;
+    height: 200px;
+    border: 2px solid black;
+    padding: 25px;
+    margin-left: 20%;    
+    margin-right: 20%;
+}
+.heading{
+	width: 100%;
+	text-align: center;
+	font-size: 22px;
+	margin: 2px 2px 20px 2px;
+	font-weight: bold;
+}
+.inside_button{
+	font-size: 12px;
+	padding: 3px;
+    margin: 3px;
+}
+#logs{
+	font-size: 12px;
+}
+</style>
+<script language="VBScript">
+
+Function getCommandOutput(theCommand)
+
+    Dim objShell, objCmdExec
+    Set objShell = CreateObject("WScript.Shell")
+    Set objCmdExec = objshell.exec("cmd /c" & thecommand)
+    getCommandOutput = objCmdExec.StdOut.ReadAll
+
+end Function
+
+Function getCommandRUN(theCommand)
+
+    Dim objShell, objCmdExec
+    Set objShell = CreateObject("WScript.Shell")
+    Set objCmdExec = objshell.exec(thecommand)
+
+end Function
+
+Function vagrant_status(str)
+	chdir = "pushd C:\Users\prabhukumar\Documents\workspace\vagrant_minions\"& str
+	str1 = getCommandOutput( chdir & " && vagrant status")
+	Alert str1
+end Function
+
+    Sub start_vagrant(str)
+    	chdir = "pushd C:\Users\prabhukumar\Documents\workspace\vagrant_minions\"& str
+		str1 = getCommandOutput("echo Rails Vagrant minion is Getting Ready. && " & chdir & " && vagrant up")
+       Alert str1
+    End Sub
+
+    Sub stop_vagrant(str)
+    	chdir = "pushd C:\Users\prabhukumar\Documents\workspace\vagrant_minions\"& str
+		str1 = getCommandOutput("echo Rails Vagrant minion is Going to sleep. && " & chdir & " && vagrant halt")
+       Alert str1
+    End Sub
+
+    Sub global_status
+    	str1 = getCommandOutput("vagrant global-status")
+    	Set Elm =document.getElementById("logs")
+    	Set headspan = document.createElement("div")
+	    headspan.id = "logs"
+		headspan.InnerText = str1
+	    Elm.appendChild headspan
+    End Sub
+
+    Sub halt_vagrant
+    	Set Elm =document.getElementById("halt_vagrant")
+    	If Elm.value = "" Then 
+			Alert "ID can't be empty, Enter the ID of vagrant box" 
+		Else
+			str1 = getCommandOutput("vagrant halt Elm.value")
+			Alert str1
+		End If
+
+
+    End Sub
+
+	Sub Window_onLoad
+		//showfolderlist "c:\windows"
+		Dim fs, f, f1, fc, s
+	    Set fs = CreateObject("Scripting.FileSystemObject")
+	    Set f = fs.GetFolder("C:\Users\prabhukumar\Documents\workspace\vagrant_minions")
+	    Set fc = f.SubFolders
+
+		str2 = ".git"
+	    For Each f1 in fc
+			    	If f1.name = str2 Then 
+						
+					Else
+				        s = s & f1.name 
+				        s = s &  vbCrLf
+					    Set innerdiv = document.createElement("span")
+					    innerdiv.classname = "minions_inner_container"
+					    document.getElementById("minions_container").appendChild innerdiv
+			//----------------------heading span -----------------------------
+					    Set headspan = document.createElement("span")
+					    headspan.classname = "heading"
+						headspan.InnerText = f1.name
+					    innerdiv.appendChild headspan
+			//----------------------Start Button -----------------------------
+						Set StartVagrant = document.createElement("span")
+						strHTML = StartVagrant.InnerHTML
+						strHTML = strHTML & "<input id=" & f1.name & " type=" & Chr(34) & "button" & Chr(34) & " value= " & Chr(34) & "Vagrant UP " & Chr(34) & "  class= " & Chr(34) & "inside_button" & Chr(34) & " onClick=" & Chr(34) & "start_vagrant('" & f1.name & "')" & Chr(34) & ">"
+						StartVagrant.InnerHTML = strHTML
+						innerdiv.appendChild StartVagrant
+			//----------------------stop Button -----------------------------
+						Set Stopvagrant = document.createElement("span")
+						strHTML = Stopvagrant.InnerHTML
+						strHTML = strHTML & "<input id=" & f1.name & " type=" & Chr(34) & "button" & Chr(34) & " value= " & Chr(34) & "Vagrant HALT " & Chr(34) & "  class= " & Chr(34) & "inside_button" & Chr(34) & " onClick=" & Chr(34) & "stop_vagrant('" & f1.name & "')" & Chr(34) & ">"
+						Stopvagrant.InnerHTML = strHTML
+						innerdiv.appendChild Stopvagrant
+		    		End IF
+
+	    Next
+	End Sub
+
+</script>
+
+
+<body>
+	<span class="tasks_container">
+		<input value="Global Status" onClick="global_status" type="button"/>
+		<input id="halt_vagrant" value=""  />
+		<input value="Halt Vagrant" onClick="halt_vagrant" type="button"/>
+		<input value="Halt Vagrant" onClick="vagrant_status" type="button"/>
+		<span id="logs"></span>
+	</span>
+	<div id="minions_container"></div>
+</body>
