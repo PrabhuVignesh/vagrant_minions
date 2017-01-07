@@ -48,7 +48,7 @@ body{
 }
 
 #logs {
-	font-size: 12px;
+	font-size: 10px;
 	font-family:Courier;
 	background: #000;
 	border: 3px groove #ccc;
@@ -58,6 +58,15 @@ body{
 	width: 100%;
 }
 </style>
+<script language="javascript" type="text/javascript">
+  function Set(){
+  alert('apple');   // this limits the size of the window opened and positions it
+    var l=(screen.width/2 - 515); // centre - half the window width
+    var t=(screen.height-130); // where you want it vertically
+    self.moveTo(l,t);
+    self.resizeTo('1030','95'); // as you can see, this example opens a longish but squat window, near the task-bar
+  }
+</script>
 <script language="VBScript">
 
 	Function status_finder(string)
@@ -66,17 +75,41 @@ body{
 		regEx.Pattern = string
 		regEx.IgnoreCase = True
 		regEx.Global = true
-		str = "www.something.com/portal.asp?category=dhl"
+		str = vagrant_status(string)
 		Set Matches = regEx.Execute(str)
 		For Each Match in Matches
 			newstr = newstr & Match.Value
 		Next
-		If newstr = "" Then 
-			return false
-		Else
-			return true
+		If newstr = "running" Then 
+			outstr = "running"
+			Exit Function
+		ElseIf newstr = "poweroff" Then
+			outstr = "poweroff"
+			Exit Function
+		ElseIf newstr = "aborted" Then
+			outstr = "aborted"
+			Exit Function
+		ElseIf newstr = "" Then
+			outstr = "nill"
+			Exit Function
 		End If
 	end Function
+
+	Function running_status_finder(strfol)
+		Dim regEx, Match, Matches
+		Set regEx = New RegExp
+		chdir = "pushd C:\Users\prabhukumar\Documents\workspace\vagrant_minions\"& str
+		str1 = getCommandOutput( chdir & " && vagrant status")
+		regEx.Pattern = str1
+		regEx.IgnoreCase = True
+		regEx.Global = true
+		str = "running"
+		Set Matches = regEx.Execute(str)
+		For Each Match in Matches
+			newstr = newstr & Match.Value
+		Next
+		alert newstr
+	End Function
 
 
 Function getCommandOutput(theCommand)
@@ -97,9 +130,9 @@ Function getCommandRUN(theCommand)
 end Function
 
 Function vagrant_status(str)
-	chdir = "pushd C:\Users\prabhukumar\Documents\workspace\vagrant_minions\"& str
+	Set chdir = "pushd C:\Users\prabhukumar\Documents\workspace\vagrant_minions\"& str
 	str1 = getCommandOutput( chdir & " && vagrant status")
-	Alert str1
+	'getCommandOutput = str1.StdOut.ReadAll
 end Function
 
     Sub start_vagrant(str)
@@ -147,7 +180,7 @@ end Function
 			    	If f1.name = str2 Then 
 						
 					Else
-				        s = s & f1.name 
+				        s = s & f1.name
 				        s = s &  vbCrLf
 					    Set innerdiv = document.createElement("span")
 					    innerdiv.classname = "minions_inner_container"
@@ -183,7 +216,7 @@ end Function
 		<input id="halt_vagrant" value=""  />
 		<input value="Halt Vagrant" onClick="halt_vagrant" type="button"/>
 		<input value="Halt Vagrant" onClick="vagrant_status" type="button"/>
-		<input value="test me" onClick="status_finder('lalalal')" type="button"/>
+		<input value="test me" onClick="status_finder('rails')" type="button"/>
 		<span id="logs"></span>
 	</span>
 	<div id="minions_container"></div>
