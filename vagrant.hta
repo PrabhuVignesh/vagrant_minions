@@ -147,14 +147,14 @@ end Function
        Alert str1
     End Sub
 
-    Sub global_status
+    Function global_status
     	str1 = getCommandOutput("vagrant global-status")
     	Set Elm =document.getElementById("logs")
     	Set headspan = document.createElement("div")
 	    headspan.id = "logs"
 		headspan.InnerText = str1
 	    Elm.appendChild headspan
-    End Sub
+    End Function
 
     Sub halt_vagrant
     	Set Elm =document.getElementById("halt_vagrant")
@@ -213,10 +213,9 @@ end Function
 <body>
 	<span class="tasks_container">
 		<input value="Global Status" onClick="global_status" type="button"/>
-		<input id="halt_vagrant" value=""  />
+		<input id="halt_vagrant" value="" />
 		<input value="Halt Vagrant" onClick="halt_vagrant" type="button"/>
-		<input value="Halt Vagrant" onClick="vagrant_status" type="button"/>
-		<input value="test me" onClick="status_finder('rails')" type="button"/>
+		<input value="vagrant status" onClick="vagrant_status" type="button"/>
 		<span id="logs"></span>
 	</span>
 	<div id="minions_container"></div>
