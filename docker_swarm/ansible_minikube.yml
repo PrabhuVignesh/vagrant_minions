@@ -1,0 +1,44 @@
+---
+- hosts: all
+  tasks:
+    - name: Create bin dir
+      file:
+        path: ~/bin
+        state: directory
+    - name: Download minikube tools
+      get_url:
+        url: "{{ item.url }}"
+        dest: ~/bin/{{ item.dest }}
+        mode: 0770
+      with_items:
+        - { url: 'http://storage.googleapis.com/kubernetes-release/release/v1.3.0/bin/linux/amd64/kubectl', dest: 'kubectl'}
+        - { url: 'https://storage.googleapis.com/minikube/releases/v0.12.2/minikube-linux-amd64', dest: 'minikube'}
+        - { url: 'https://github.com/docker/machine/releases/download/v0.9.0-rc1/docker-machine-Linux-x86_64', dest: 'docker-machine'}
+        - { url: 'https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.7.0/docker-machine-driver-kvm', dest: 'docker-machine-driver-kvm'}
+
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      become: yes
+      with_items:
+        - libvirt-bin
+        - qemu-kvm
+        - docker.io
+
+    - name: group list
+      shell: /usr/bin/getent group | awk -F":" '{print $1}'
+      register: groups_list
+
+    - name: Add user to groups
+      user:
+        name: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+        groups: "{{ item }}"
+        append: yes
+      become: yes
+      when: '"{{ item }}" in groups_list.stdout_lines'
+      with_items:
+        - libvirt
+        - libvirtd
+        - docker

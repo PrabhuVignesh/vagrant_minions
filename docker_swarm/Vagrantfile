@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "dockernode1" do |dockernode1|
       dockernode1.vm.hostname = "dockernode1"
-      dockernode1.vm.network "private_network", ip: "172.28.128.53"
+      dockernode1.vm.network "private_network", ip: "172.28.128.58"
       dockernode1.vm.provider :virtualbox do |vb|
           vb.memory = "512"
       end
@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "dockernode2" do |dockernode2|
       dockernode2.vm.hostname = "dockernode2"
-      dockernode2.vm.network "private_network", ip: "172.28.128.54"
+      dockernode2.vm.network "private_network", ip: "172.28.128.59"
       dockernode2.vm.provider :virtualbox do |vb|
           vb.memory = "512"
       end
@@ -38,17 +38,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.define "dockernode3" do |dockernode3|
       dockernode3.vm.hostname = "dockernode3"
-      dockernode3.vm.network "private_network", ip: "172.28.128.55"
+      dockernode3.vm.network "private_network", ip: "172.28.128.60"
       dockernode3.vm.provider :virtualbox do |vb|
           vb.memory = "512"
       end
   end
 
-
-
   config.vm.define "dockerclient" do |dockerclient|
       dockerclient.vm.hostname = "dockerclient"
-      dockerclient.vm.network "private_network", ip: "172.28.128.56"
+      dockerclient.vm.network "private_network", ip: "172.28.128.61"
       dockerclient.vm.provider :virtualbox do |vb|
           vb.memory = "512"
       end
