@@ -1,0 +1,30 @@
+- name: Install all necessary gems
+  gem: user_install=yes name={{ item }} state=latest
+  sudo: True
+  sudo_user: "{{ user }}"
+  with_items:
+    - riemann-client
+    - riemann-tools
+
+- name: Configure log files
+  file:
+    path=/var/log/riemann-host-statistics.log
+    state=touch
+    owner={{ user }}
+    group={{ group }}
+    mode=0644
+
+- name: Create scripts
+  template:
+    src=./roles/riemann-host-statistics/templates/riemann-host-statistics.sh.j2
+    dest=/home/{{ user }}/riemann-host-statistics.sh
+    owner={{ user }}
+    group={{ group }}
+    mode=0755
+
+- name: Enable host statistics
+  shell: "start-stop-daemon --start --quiet --pidfile /var/run/riemann/host-statistics.pid --exec /home/{{ user }}/riemann-host-statistics.sh"
+  sudo: True
+  sudo_user: "{{ user }}"
+  args:
+    executable: "/bin/bash"

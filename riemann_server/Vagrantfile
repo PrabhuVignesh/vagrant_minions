@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+
+Vagrant.configure(2) do |config|
+  config.vm.define 'grafana-influxdb-riemann' do |node_env|
+    node_env.vm.box = 'ubuntu/trusty64'
+
+    node_env.vm.provider :virtualbox do |vm|
+      vm.name = 'grafana-influxdb-riemann'
+
+      vm.memory = 1024
+      vm.cpus = 1
+    end
+
+    node_env.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh'
+    config.vm.hostname = "riemannserver"
+    config.vm.box_check_update = false
+
+    config.vm.network "forwarded_port", guest: 3000, host: 3001
+    config.vm.network "forwarded_port", guest: 4567, host: 4567
+    config.vm.network "forwarded_port", guest: 5556, host: 5556
+    config.vm.network "forwarded_port", guest: 8086, host: 8086
+    config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents"
+
+    node_env.vm.network 'private_network', ip: '172.28.128.62'
+
+    node_env.vm.provision 'ansible' do |ansible|
+      ansible.limit = 'all'
+      ansible.inventory_path = 'provisioning/machines.vagrant'
+      ansible.playbook = 'provisioning/grafana-influxdb-riemann.yml'
+    end
+  end
+end

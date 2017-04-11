@@ -1,0 +1,4 @@
+.vagrant/
+
+provisioning/roles/joshualund.ruby-common/
+provisioning/roles/smola.java/

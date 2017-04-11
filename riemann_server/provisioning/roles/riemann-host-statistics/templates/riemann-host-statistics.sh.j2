@@ -1,0 +1,3 @@
+#!/bin/sh
+
+nohup /home/{{ user }}/.gem/ruby/{{ ruby_version_norev }}/bin/riemann-health & 2>&1 >/var/log/riemann-host-statistics.log

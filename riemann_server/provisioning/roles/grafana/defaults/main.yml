@@ -1,0 +1,3 @@
+grafana:
+  version: 2.5.0
+  www: /var/www/grafana

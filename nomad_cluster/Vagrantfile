@@ -1,0 +1,70 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+$script = <<SCRIPT
+# Update apt and get dependencies
+sudo apt-get update
+sudo apt-get install -y unzip curl wget vim
+# Download Nomad
+echo Fetching Nomad...
+cd /tmp/
+curl -sSL https://releases.hashicorp.com/nomad/0.5.1/nomad_0.5.1_linux_amd64.zip -o nomad.zip
+echo Installing Nomad...
+unzip nomad.zip
+sudo chmod +x nomad
+sudo mv nomad /usr/bin/nomad
+sudo mkdir -p /etc/nomad.d
+sudo chmod a+w /etc/nomad.d
+# Set hostname's IP to made advertisement Just Work
+sudo sed -i -e "s/.*nomad.*/$(ip route get 1 | awk '{print $NF;exit}') nomad/" /etc/hosts
+SCRIPT
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_check_update = false
+  config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents"
+  config.vm.provision "shell", inline: $script, privileged: false
+  config.vm.define "nomadnode1" do |nomadnode1|
+      nomadnode1.vm.hostname = "nomadnode1"
+      nomadnode1.vm.network "private_network", ip: "172.28.128.63"
+      nomadnode1.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "nomadnode2" do |nomadnode2|
+      nomadnode2.vm.hostname = "nomadnode2"
+      nomadnode2.vm.network "private_network", ip: "172.28.128.64"
+      nomadnode2.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "nomadnode3" do |nomadnode3|
+      nomadnode3.vm.hostname = "nomadnode3"
+      nomadnode3.vm.network "private_network", ip: "172.28.128.65"
+      nomadnode3.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "nomadnode4" do |nomadnode4|
+      nomadnode4.vm.hostname = "nomadnode4"
+      nomadnode4.vm.network "private_network", ip: "172.28.128.66"
+      nomadnode4.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+  config.vm.define "nomadnode5" do |nomadnode5|
+      nomadnode5.vm.hostname = "nomadnode5"
+      nomadnode5.vm.network "private_network", ip: "172.28.128.67"
+      nomadnode5.vm.provider :virtualbox do |vb|
+          vb.memory = "256"
+      end
+  end
+
+end

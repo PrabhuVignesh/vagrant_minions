@@ -1,0 +1,11 @@
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Get helpful packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - wget
+    - curl
+    - htop
+    - adduser
+    - libfontconfig

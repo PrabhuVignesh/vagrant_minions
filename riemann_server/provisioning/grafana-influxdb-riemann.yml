@@ -1,0 +1,26 @@
+- hosts: all
+  sudo: True
+  vars:
+    user: "{{ ansible_ssh_user }}"
+    group: admin
+
+    java_packages:
+      - openjdk-7-jdk
+
+    ruby_version_major: 2.0
+    ruby_version_revision: 647
+    ruby_version_norev: "{{ ruby_version_major }}.0"
+
+    ruby_version: ruby-{{ ruby_version_norev }}-p{{ ruby_version_revision }}
+    ruby_checksum: c88aaf5b4ec72e2cb7d290ff854f04d135939f6134f517002a9d65d5fc5e5bec
+    ruby_download_location: http://cache.ruby-lang.org/pub/ruby/{{ ruby_version_major }}/ruby-{{ ruby_version_norev }}-p{{ ruby_version_revision }}.tar.gz
+
+  roles:
+    - smola.java
+    - joshualund.ruby-common
+    - common-tools
+    - riemann
+    - riemann-host-statistics
+    - riemann-dashboard
+    - influx-db
+    - grafana

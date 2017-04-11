@@ -1,0 +1,10 @@
+- name: Get InfluxDB package for Debian / Ubuntu
+  get_url:
+    url=https://s3.amazonaws.com/influxdb/influxdb_{{ influx_db.version }}_amd64.deb
+    dest=/tmp/influxdb.deb
+    mode=0644
+
+- name: Install it
+  apt: deb=/tmp/influxdb.deb
+  notify:
+    - restart InfluxDB

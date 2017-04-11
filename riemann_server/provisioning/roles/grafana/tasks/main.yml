@@ -1,0 +1,10 @@
+- name: Get Grafana package for Debian / Ubuntu
+  get_url:
+    url=https://grafanarel.s3.amazonaws.com/builds/grafana_{{ grafana.version }}_amd64.deb
+    dest=/tmp/grafana.deb
+    mode=0644
+
+- name: Install it
+  apt: deb=/tmp/grafana.deb
+  notify:
+    - restart Grafana

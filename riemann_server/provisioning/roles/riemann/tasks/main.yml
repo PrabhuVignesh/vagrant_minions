@@ -1,0 +1,10 @@
+- name: Get Riemann package for Debian / Ubuntu
+  get_url:
+    url=https://aphyr.com/riemann/riemann_{{ riemann.version }}_all.deb
+    dest=/tmp/riemann.deb
+    mode=0644
+
+- name: Install it
+  apt: deb=/tmp/riemann.deb
+  notify:
+    - restart Riemann

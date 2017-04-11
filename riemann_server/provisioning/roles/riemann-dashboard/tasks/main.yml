@@ -1,0 +1,44 @@
+- name: Install all necessary gems
+  gem: user_install=yes name={{ item }} state=latest
+  sudo: True
+  sudo_user: "{{ user }}"
+  with_items:
+    - riemann-dash
+
+- name: Configure log files
+  file:
+    path=/var/log/riemann-dash.log
+    state=touch
+    owner={{ user }}
+    group={{ group }}
+    mode=0644
+
+- name: Configure pid directory
+  file:
+    path=/var/run/riemann
+    state=directory
+    owner={{ user }}
+    group={{ group }}
+
+- name: Configure dashboard
+  template:
+    src=./roles/riemann-dashboard/templates/riemann-dash-config.rb.j2
+    dest=/home/{{ user }}/riemann-dash.rb
+    owner={{ user }}
+    group={{ group }}
+    mode=0644
+
+- name: Create scripts
+  template:
+    src=./roles/riemann-dashboard/templates/riemann-dashboard.sh.j2
+    dest=/home/{{ user }}/riemann-dashboard.sh
+    owner={{ user }}
+    group={{ group }}
+    mode=0755
+
+- name: Enable dashboard
+  shell: "start-stop-daemon --start --quiet --pidfile /var/run/riemann/dashboard.pid --exec /home/{{ user }}/riemann-dashboard.sh"
+  sudo: True
+  sudo_user: "{{ user }}"
+  args:
+    executable: "/bin/bash"
