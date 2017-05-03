@@ -5,12 +5,17 @@
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 Vagrant.configure(2) do |config|
  
-  config.vm.hostname = "dummy1apache2"
+  config.vm.hostname = "survey"
 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "limesurvey"
+  #box location https://vagrantcloud.com/brunofpereira/boxes/ubuntu-limesurvey/versions/1.2/providers/virtualbox.box
+# MySQL Credentials: root:123qweASD#
+# LimeSurvey Credentials: admin:password
+# By default the machine will be appear as another physical device on your network.
+
 
   config.vm.box_check_update = false
-  config.vm.network "private_network", ip: "172.28.128.14"
+  config.vm.network "private_network", ip: "172.28.128.92"
   #config.vm.network :forwarded_port, guest: 22, host: 2200, id: "ssh"
   config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents"
 

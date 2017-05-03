@@ -1,0 +1,82 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+  - name: copying all files in all nodes
+    copy: src=../app dest=/home/vagrant/ mode=0777
+
+  - name: installing python pip
+    apt: name=python-pip
+
+  - name: Installing python flask
+    pip: name=flask
+
+
+- hosts: movies
+  sudo: yes
+  tasks:
+  - name: change the dir
+    command: chdir=/home/vagrant/app ls
+
+  - name: running installation script
+    shell: "python /home/vagrant/app/setup.py install"
+  
+  - name: running developement script
+    shell: "python /home/vagrant/app/setup.py develop"
+
+  - name: running movie service
+    command: chdir=/home/vagrant/app python /home/vagrant/app/services/movies.py
+    async: 9999999999999
+    poll: 0
+
+- hosts: showtimes
+  sudo: yes
+  tasks:
+  - name: running installation script
+    shell: "python /home/vagrant/app/setup.py install"
+
+  - name: change the dir
+    command: chdir=/home/vagrant/app ls
+    
+  - name: running developement script
+    shell: "python /home/vagrant/app/setup.py develop"
+
+  - name: running showtime service
+    command: chdir=/home/vagrant/app python /home/vagrant/app/services/showtimes.py
+    async: 9999999999999
+    poll: 0
+
+- hosts: bookings
+  sudo: yes
+  tasks:
+  - name: running installation script
+    shell: "python /home/vagrant/app/setup.py install"  
+
+  - name: change the dir
+    command: chdir=/home/vagrant/app ls
+    
+
+  - name: running developement script
+    shell: "python /home/vagrant/app/setup.py develop"
+
+  - name: running booking service
+    command: chdir=/home/vagrant/app python /home/vagrant/app/services/bookings.py
+    async: 9999999999999
+    poll: 0
+    
+- hosts: user
+  sudo: yes
+  tasks:
+  - name: running installation script
+    shell: "python /home/vagrant/app/setup.py install"
+
+  - name: change the dir
+    command: chdir=/home/vagrant/app ls
+    
+  - name: running developement script
+    shell: "python /home/vagrant/app/setup.py develop"
+
+  - name: running user service
+    command: chdir=/home/vagrant/app python /home/vagrant/app/services/user.py
+    async: 9999999999999
+    poll: 0

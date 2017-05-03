@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_check_update = false
+  config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents"
+ 
+  # (1..5).each do |i|
+  #   ip = 70+i
+  #   config.vm.define "servicenode#{i}" do |node|
+  #     node.vm.hostname = "servicenode#{i}"
+  #     node.vm.network "private_network", ip: "172.28.128.#{ip}"
+  #     node.vm.provider :virtualbox do |vb|
+  #         vb.memory = "256"
+  #     end
+  #   end
+  # end
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.playbook = "provision/playbook.yml"
+  #   ansible.inventory_path = "provision/host"
+  # end
+
+  config.vm.define "movie" do |movie|
+    movie.vm.hostname = "movies"
+    movie.vm.network "private_network", ip: "172.28.128.121"
+    movie.vm.network "forwarded_port", guest: 5001, host: 5001
+    movie.vm.provider :virtualbox do |vb|
+      vb.memory = "512"
+    end
+  end
+  config.vm.define "showtime" do |showtime|
+    showtime.vm.hostname = "showtimes"
+    showtime.vm.network "private_network", ip: "172.28.128.122"
+    showtime.vm.network "forwarded_port", guest: 5002, host: 5002
+    showtime.vm.provider :virtualbox do |vb|
+      vb.memory = "512"
+    end
+  end
+  config.vm.define "booking" do |booking|
+    booking.vm.hostname = "bookings"
+    booking.vm.network "private_network", ip: "172.28.128.123"
+    booking.vm.network "forwarded_port", guest: 5003, host: 5003
+    booking.vm.provider :virtualbox do |vb|
+      vb.memory = "512"
+    end
+  end
+  config.vm.define "user" do |user|
+    user.vm.hostname = "user"
+    user.vm.network "private_network", ip: "172.28.128.124"
+    booking.vm.network "forwarded_port", guest: 5000, host: 5000
+    user.vm.provider :virtualbox do |vb|
+      vb.memory = "512"
+    end
+  end
+end
