@@ -51,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "user" do |user|
     user.vm.hostname = "user"
     user.vm.network "private_network", ip: "172.28.128.124"
-    booking.vm.network "forwarded_port", guest: 5000, host: 5000
+    user.vm.network "forwarded_port", guest: 5000, host: 5000
     user.vm.provider :virtualbox do |vb|
       vb.memory = "512"
     end
