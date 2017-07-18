@@ -1,3 +1,0 @@
-#disable_html_escaping()
-
-#userGroupSearcher($userSelect $name $userField $values $hasPermissionToPickUsers $suggestedUsers $suggestedGroups $hasEmpty $emptyValueKey $hasCurrentUser $description)

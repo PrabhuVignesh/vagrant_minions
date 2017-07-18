@@ -1,1 +1,0 @@
-JIRA.Users={};JIRA.Users.LoggedInUser={};JIRA.Users.LoggedInUser.userName=function(){return AJS.Meta.get("remote-user")};JIRA.Users.LoggedInUser.isAnonymous=function(){return AJS.Meta.get("remote-user")===""};

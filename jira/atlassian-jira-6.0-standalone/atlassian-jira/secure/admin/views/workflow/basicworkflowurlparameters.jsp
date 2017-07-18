@@ -1,2 +1,0 @@
-<%@ taglib uri="webwork" prefix="ww" %>
-<ww:param name="'workflowMode'" value="workflow/mode" /><ww:param name="'workflowName'" value="workflow/name" /><ww:if test="project != null"><ww:param name="'project'" value="project" /></ww:if>

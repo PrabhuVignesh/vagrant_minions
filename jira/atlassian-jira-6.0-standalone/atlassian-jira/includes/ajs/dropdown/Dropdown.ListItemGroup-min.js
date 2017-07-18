@@ -1,1 +1,0 @@
-AJS.Dropdown.ListItemGroup=AJS.Group.extend({keys:{"Up":function(event){this.shiftFocus(-1);event.preventDefault()},"Down":function(event){this.shiftFocus(1);event.preventDefault()},"Return":function(event){this.items[this.index].trigger("accept");event.preventDefault()}}});
