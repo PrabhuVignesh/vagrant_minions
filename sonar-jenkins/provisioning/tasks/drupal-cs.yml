@@ -1,0 +1,31 @@
+---
+- name: Download Drupal Coder module.
+  get_url: >
+    url=http://ftp.drupal.org/files/projects/coder-7.x-2.x-dev.tar.gz
+    dest={{ workspace }}/coder.tar.gz
+
+- name: Expand Coder module archive.
+  command: >
+    tar -zxf {{ workspace }}/coder.tar.gz
+    creates={{ workspace }}/coder/coder.info
+    chdir={{ workspace }}
+
+- name: Move Drupal standards into CodeSniffer directory.
+  command: >
+    cp -r {{ workspace }}/coder/coder_sniffer/Drupal
+    /var/lib/jenkins/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/Drupal
+    creates=/var/lib/jenkins/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/Drupal/ruleset.xml
+  become: yes
+
+- name: Ensure Drupal Sonar config directory exists.
+  file: >
+    path=/etc/sonar
+    state=directory
+    mode=755
+
+- name: Copy Drupal Sonar properties files into place.
+  copy: >
+    src=sonar/sonar-{{ item }}.properties
+    dest=/etc/sonar/sonar-{{ item }}.properties
+    mode=644
+  with_items: "{{ drupal_versions }}"

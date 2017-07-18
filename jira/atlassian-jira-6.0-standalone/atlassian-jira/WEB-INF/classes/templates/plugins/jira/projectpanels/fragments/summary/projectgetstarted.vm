@@ -1,0 +1,5 @@
+<div class="jira-adbox get-started-message" id="project-get-started">
+    <h3>$i18n.getText('projectgetstarted.heading')</h3>
+    <p>$i18n.getText('projectgetstarted.description', $i18n.getText('menu.issues.new.issue'))</p>
+    <p><a class="aui-button aui-button-primary aui-style create-issue" id="no-issues-create-issue" title="$i18n.getText('tooltip.createnewissue')" href="${baseurl}/secure/CreateIssue!default.jspa?pid=${project.id}">$i18n.getText('menu.issues.new.issue')</a></p>
+</div>

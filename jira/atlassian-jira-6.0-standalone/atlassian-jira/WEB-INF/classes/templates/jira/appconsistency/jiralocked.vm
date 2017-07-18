@@ -1,0 +1,181 @@
+#disable_html_escaping()
+<html>
+<head>
+    <title>JIRA Startup Failed</title>
+    <meta http-equiv="refresh" content="180"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+
+    <style type="text/css">
+        /**
+        * RESET
+        */
+    html, body, p, div, h1, h2, h3, h4, h5, h6, img, pre, form, fieldset {
+        margin: 0;
+        padding: 0;
+    }
+    ul, ol, dl {
+        margin: 0;
+    }
+    img, fieldset {
+        border: 0;
+    }
+
+    body {
+        background: #f5f5f5;
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.42857142857143; /* 20px equiv line-height */
+    }
+
+    a {
+        color: #3b73af;
+        text-decoration: none;
+    }
+    a:focus,
+    a:hover,
+    a:active {
+        text-decoration: underline;
+    }
+
+        /* Default margins */
+    p,
+    ul,
+    ol,
+    dl,
+    h1 {
+        margin: 10px 0 0 0;
+    }
+
+        /* No top margin to interfere with box padding */
+    p:first-child,
+    h1:first-child {
+        margin-top: 0;
+    }
+
+        /* Headings */
+    h1 {
+        font-size: 24px;
+        font-weight: normal;
+        line-height: 1.25; /* 30px equiv line-height */
+        margin: 40px 0 0 0;
+    }
+    h1:first-child {
+        margin-top: 0;
+    }
+
+        /*! AUI Page Panel */
+    .aui-page-panel {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-left-width: 0;
+        border-right-width: 0;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        clear: both;
+        display: block;
+        margin: 20px 0 0 0;
+        padding: 0;
+        position: relative;
+        width: 100%;
+    }
+    .aui-page-panel-inner {
+        border-spacing: 0;
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .aui-page-panel-content {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        display: table-cell;
+        padding: 20px;
+        vertical-align: top;
+    }
+        /* Page Panel Interops */
+    .aui-page-header + .aui-page-panel,
+    .aui-navbar + .aui-page-panel {
+        margin-top: 0;
+    }
+    .aui-navbar + .aui-page-panel {
+        border-top: none;
+    }
+        /* AUI Messages */
+    .aui-message {
+        background: #fcfcfc;
+        border: 1px solid #ccc;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        color: #333;
+        margin: 10px 0 0 0;
+        padding: 10px 10px 10px 36px; /* Be sure to adjust icon positions below if these values are changed */
+        position: relative;
+    }
+
+    .aui-message.error {
+        background: #d04437;
+        border-color: #d04437;
+        color: #fff;
+    }
+    .aui-message.success {
+        background: none repeat scroll 0 0 #F3F9F4;
+        border-color: #91C89C;
+    }
+
+        /* Positioning aui-icon for messages */
+    .aui-message .aui-icon {
+        left: 10px; /* desired spacing between the icon and text = 10px so need to subtract the icon width (16px) from the left padding of the message (36px) then remove 10px */
+        position: absolute;
+        top: 12px; /* 12px = top padding of the message (10px) + align to the center of the text ((20px line-height - 16px icon height) / 2) */
+    }
+    .aui-message > p:first-child {
+        margin-top: 0
+    }
+        /* End aui-icon position */
+
+        /* Icon for the error message */
+    .aui-icon {
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        border: none;
+        display: inline-block;
+        height: 16px;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        text-indent: -999em;
+        vertical-align: text-bottom;
+        width: 16px;
+    }
+    .aui-message .icon-error {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAzUlEQVR42q2T3QqCQBBGvcqCehETvVBfM71QsGeJ3kIyeo260DC2b+CThoVdsFo44JzdGfZnDIwxNhE4gB4M5EIX2et1sAI1eBnH4FwLNnOeTj6phUdQgDUp6OZxlhxdoOHEDaSAnuMT78GVrhY3y4kyEekqQFK6SXJFlGrbgbcAUccpJegZ5AsK5PS9BCODcEGBkH78tsCO/u4+gp+MOd2vl1hJEC98xkQ9Y+xvJOJopMbXyi3I6Lf8bu1W/uvPZG+z4laf4AE6uthe/wbkrGRlM25n9wAAAABJRU5ErkJggg==);
+    }
+    .aui-message .icon-success {
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA9klEQVR42qWTPQrCQBSErfwBhRQewDoGFYyHtDEWCSSVR8gBRDxCGjFi4xEstFBR4jyYYnmuK5LAB/vmzexuNpuGfvrzwAcLUIIb2VPzTa8ONkEMXqCywV4KOrbw2jBmYAbaZEatIhvJmBMkbBzB2LHLITjQG5vik+Ko8eORBeh9SlaEiELmCHmgACvWGTORFCWL8Et4IGF6TtRC1qUUdxYtNiOB4wk4s18Aj3qL2v1jAiOQ28L09Khf1CuoVS1heqbs7ayHyEm2INdhdYhLKYI/P+PI+IxBnYuUuK5yCqbUuxyn+irX/Jnc21xyqw9wBTtqgfa/Af067eG0xhemAAAAAElFTkSuQmCC");
+    }
+    </style>
+</head>
+<body id="jira" class="aui-layout aui-theme-default">
+    <div id="page">
+        <div id="content" role="main">
+            <div class="aui-page-panel">
+                <div class="aui-page-panel-inner">
+                    <div class="aui-page-panel-content">
+                        <h1>JIRA Startup Failed</h1>
+                        <div class="aui-message error">
+                            <span class="aui-icon icon-error"></span>
+                            #if (${failedStartupCheck})
+                                ${failedStartupCheck.getHTMLFaultDescription()}
+                            #end
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

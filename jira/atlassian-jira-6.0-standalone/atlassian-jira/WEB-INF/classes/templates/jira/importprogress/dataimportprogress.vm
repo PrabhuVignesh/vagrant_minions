@@ -1,0 +1,307 @@
+#* @vtlvariable name="task" type="com.atlassian.jira.web.filters.JiraImportProgressFilter.SimpleTaskDescriptorBean" *#
+## WARNING: DO NOT INCLUDE ANY IMAGES IN THIS PAGE!! Those requests will go through the filter chain and cause
+## deadlocks in pico!!
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${task.getDescription()}</title>
+
+    <meta http-equiv="refresh" content="5" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+
+    <style type="text/css">
+        /**
+        * RESET
+        */
+        html, body, p, div, h1, h2, h3, h4, h5, h6, img, pre, form, fieldset {
+            margin: 0;
+            padding: 0;
+        }
+        ul, ol, dl {
+            margin: 0;
+        }
+        img, fieldset {
+            border: 0;
+        }
+
+        /**
+        * PAGE DESIGN
+        */
+        body {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        a {
+            color: #3b73af;
+            text-decoration: none;
+        }
+        a:focus,
+        a:hover,
+        a:active {
+            text-decoration: underline;
+        }
+
+        /**
+         * TYPOGRAPHY - 14px base font size, agnostic font stack
+         */
+        body {
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.42857142857143; /* 20px equiv line-height */
+        }
+
+        /* Default margins */
+        p,
+        ul,
+        ol,
+        dl,
+        h1 {
+            margin: 10px 0 0 0;
+        }
+
+        /* No top margin to interfere with box padding */
+        p:first-child,
+        h1:first-child {
+            margin-top: 0;
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            line-height: 1.25; /* 30px equiv line-height */
+            margin: 40px 0 0 0;
+        }
+        h1:first-child {
+            margin-top: 0;
+        }
+
+        /*! AUI Page Panel */
+        .aui-page-panel {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-left-width: 0;
+            border-right-width: 0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            clear: both;
+            display: block;
+            margin: 20px 0 0 0;
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+        .aui-page-panel-inner {
+            border-spacing: 0;
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        .aui-page-panel-content {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: table-cell;
+            padding: 20px;
+            vertical-align: top;
+        }
+        /* Page Panel Interops */
+        .aui-page-header + .aui-page-panel,
+        .aui-navbar + .aui-page-panel {
+            margin-top: 0;
+        }
+        .aui-navbar + .aui-page-panel {
+            border-top: none;
+        }
+        /* AUI Messages */
+        .aui-message {
+            background: #fcfcfc;
+            border: 1px solid #ccc;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            color: #333;
+            margin: 10px 0 0 0;
+            padding: 10px 10px 10px 36px; /* Be sure to adjust icon positions below if these values are changed */
+            position: relative;
+        }
+
+        .aui-message.error {
+            background: #d04437;
+            border-color: #d04437;
+            color: #fff;
+        }
+
+        /* Positioning aui-icon for messages */
+        .aui-message .aui-icon {
+            left: 10px; /* desired spacing between the icon and text = 10px so need to subtract the icon width (16px) from the left padding of the message (36px) then remove 10px */
+            position: absolute;
+            top: 12px; /* 12px = top padding of the message (10px) + align to the center of the text ((20px line-height - 16px icon height) / 2) */
+        }
+        /* End aui-icon position */
+
+        /* Icon for the error message */
+        .aui-icon {
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            border: none;
+            display: inline-block;
+            height: 16px;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            text-indent: -999em;
+            vertical-align: text-bottom;
+            width: 16px;
+        }
+        .aui-message .icon-error {
+            /* icon-error-white.png */
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAzUlEQVR42q2T3QqCQBBGvcqCehETvVBfM71QsGeJ3kIyeo260DC2b+CThoVdsFo44JzdGfZnDIwxNhE4gB4M5EIX2et1sAI1eBnH4FwLNnOeTj6phUdQgDUp6OZxlhxdoOHEDaSAnuMT78GVrhY3y4kyEekqQFK6SXJFlGrbgbcAUccpJegZ5AsK5PS9BCODcEGBkH78tsCO/u4+gp+MOd2vl1hJEC98xkQ9Y+xvJOJopMbXyi3I6Lf8bu1W/uvPZG+z4laf4AE6uthe/wbkrGRlM25n9wAAAABJRU5ErkJggg==);
+        }
+
+        /* AUI Buttons */
+        .aui-button {
+            background: #f2f2f2;
+            background: -moz-linear-gradient(top, #fff 0%, #f2f2f2 100%); /* FF3.6+ */
+            background: -ms-linear-gradient(top, #fff 0%, #f2f2f2 100%); /* IE10+ */
+            background: -o-linear-gradient(top, #fff 0%, #f2f2f2 100%); /* Opera 11.10+ */
+            background: -webkit-linear-gradient(top, #fff 0%, #f2f2f2 100%); /* Chrome10+,Safari5.1+ */
+            background: linear-gradient(to bottom, #fff 0%, #f2f2f2 100%); /* W3C */
+            border: 1px solid #ccc;
+            border-radius: 3.01px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            color: #333;
+            cursor: pointer;
+            display: inline-block;
+            font-family: sans-serif;
+            font-size: 14px;
+            font-variant: normal;
+            font-weight: normal;
+            height: 2.1428571428571em; /* 30px - using ems so the fields increase in line with user specified font-sizes */
+            line-height: 1.4285714285714;
+            margin: 0;
+            padding: 4px 10px;
+            text-decoration: none;
+            text-shadow: 0 1px 0 white;
+            vertical-align: baseline;
+            white-space: nowrap;
+        }
+        .aui-button:hover,
+        .aui-button:active,
+        .aui-button:focus {
+            text-decoration: none;
+        }
+
+        /* Control button height in Firefox. See http://www.experimentgarden.com/2010/11/firefox-buttontext-height-and-padding.html */
+        .aui-button::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+        }
+
+        .aui-button:focus,
+        .aui-button:hover {
+            background: #f7f7f7;
+            background: -moz-linear-gradient(top, #fff 0%, #f7f7f7 100%); /* FF3.6+ */
+            background: -webkit-linear-gradient(top, #fff 0%,#f7f7f7 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, #fff 0%,#f7f7f7 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, #fff 0%,#f7f7f7 100%); /* IE10+ */
+            background: linear-gradient(to bottom, #fff 0%,#f7f7f7 100%); /* W3C */
+            border-color: #999;
+            color: #000;
+            text-decoration:none;
+        }
+
+        .aui-button:active,
+        .aui-button.active {
+            background-image: none;
+            background-color: #f2f2f2;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,.1);
+            text-shadow: none;
+            text-decoration:none;
+        }
+        /**
+         * Page variations
+         */
+        .aui-page-focused .aui-page-panel {
+            margin-left: auto;
+            margin-right: auto;
+            width: 980px;
+        }
+
+        .aui-page-focused-medium .aui-page-header,
+        .aui-page-focused-medium .aui-page-panel,
+        .aui-page-focused-medium #footer .footer-body {
+            width: 600px;
+        }
+
+        .aui-page-focused .aui-page-panel {
+            border-width: 1px;
+            border-radius: 5px;
+        }
+
+        /* Progress bar styles */
+        .bar-container {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 10px 0 0 0;
+            overflow: hidden;
+            width: 100%;
+        }
+        .bar {
+            background-color: #4A6785;
+            height: 28px;
+            text-align: left;
+            text-indent: -999em;
+        }
+        .taskinfo {
+            color: #707070;
+        }
+    </style>
+</head>
+<body id="jira" class="aui-layout aui-theme-default aui-page-focused aui-page-focused-medium">
+<div id="page">
+    <div id="content" role="main">
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <div class="aui-page-panel-content">
+                    <h1>${task.getDescription()}</h1>
+                    <div class="bar-container">
+                        <div class="bar" style="width: ${task.getProgressNumber()}%">${task.getProgressNumber()}% complete</div>
+                    </div>
+                    #if($task.exceptionCause)
+                        #if ($task.exceptionCause.message)
+                            <div class="aui-message error">
+                                <p><span class="aui-icon icon-error"></span>${task.exceptionCause.message}</p>
+                            </div>
+                        #else
+                            <div class="aui-message error">
+                                <p><span class="aui-icon icon-error"></span>${task.exceptionCause.message}</p>
+                            </div>
+                        #end
+                    #elseif($task.getLastProgressEvent())
+                        <p class="status">${task.getProgressMessage()}</p>
+                    #end
+                    <p class="progress taskinfo">${task.getFormattedProgress()}</p>
+                    #if($task.isStarted())
+                        <p class="taskinfo">${task.getFormattedStartDate()}</p>
+                    #end
+
+                    #set ($buttonText = "${task.getText('admin.common.words.refresh')}")
+                    #if($task.exceptionCause)
+                        #set ($buttonText = "${task.getText('common.concepts.back')}")
+                    #end
+                    <p><input type="submit" onclick="window.location.reload();" name="$buttonText" value="$buttonText" id="refresh_submit" accesskey="s" class="aui-button" /></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

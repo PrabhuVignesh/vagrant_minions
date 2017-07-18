@@ -1,0 +1,61 @@
+#disable_html_escaping()
+#* @vtlvariable name="dateConfig" type="com.atlassian.jira.issue.search.searchers.util.DateSearcherConfig" *#
+## Date after
+#if ($isKickass)
+ ## Only kickass and due date fields for now
+<div data-field-name="$!textutils.htmlEncode($fieldName)" class="js-${searcherId}-searcher date-searcher #if($searcherId.startsWith("customfield_"))js-customdate-searcher#end #if (!$action.getErrors().isEmpty())has-errors#end" >
+    #datePopupOptions($dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+    <fieldset class="js-date-picker-errors">
+        #foreach ($error in $action.getErrors().entrySet())
+            <input type="hidden" title="$error.getKey()" value="$textutils.htmlEncode($error.getValue())" />
+        #end
+    </fieldset>
+    <input type="text" class="js-date-picker-start-date" name="${afterField}" value="$!fieldValuesHolder.getEscaped($afterField)" />
+    <input type="text" class="js-date-picker-end-date" name="${beforeField}" value="$!fieldValuesHolder.getEscaped($beforeField)" />
+    <input type="text" class="js-date-picker-from" name="${previousField}" value="$!fieldValuesHolder.getEscaped($previousField)" />
+    <input type="text" class="js-date-picker-to" name="${nextField}" value="$!fieldValuesHolder.getEscaped($nextField)" />
+</div>
+#customControlFooterDescription (${description})
+#else
+$!{auiparams.put("controlHeaderClass", "aui-field-datepicker")}
+#searcherEditHeader (${afterField} ${afterFieldLabel})
+    <input class="text datepicker-input" id="searcher-${afterField}" name="${afterField}" title="${i18n.getText('navigator.filter.date.tooltip', $afterFieldLabel.toLowerCase())}" type="text" value="$!fieldValuesHolder.getEscaped($afterField)" />
+    <div class="datepicker-icon">
+        <a href="#" id="searcher-${afterField}-trigger" title="$i18n.getText('date.picker.select.date')">
+            <span class="aui-icon icon-date">$i18n.getText('date.picker.select.date')</span>
+        </a>
+    </div>
+    #datePopup("searcher-${afterField}" "searcher-${afterField}-trigger" $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+#searcherEditFooter (${afterField} '')
+$!{auiparams.clear()}
+## Date before
+$!{auiparams.put("controlHeaderClass", "aui-field-datepicker")}
+#searcherEditHeader (${beforeField} ${beforeFieldLabel})
+    <input class="text datepicker-input" id="searcher-${beforeField}" name="${beforeField}" title="${i18n.getText('navigator.filter.date.tooltip', $beforeFieldLabel.toLowerCase())}" type="text" value="$!fieldValuesHolder.getEscaped($beforeField)" />
+    <div class="datepicker-icon">
+        <a href="#" id="searcher-${beforeField}-trigger" title="$i18n.getText('date.picker.select.date')">
+            <span class="aui-icon icon-date">$i18n.getText('date.picker.select.date')</span>
+        </a>
+    </div>
+    #datePopup("searcher-${beforeField}" "searcher-${beforeField}-trigger" $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+#searcherEditFooter (${beforeField} '')
+$!{auiparams.clear()}
+## Date between
+$!{auiparams.put("controlHeaderClass", "aui-field-daterange")}
+#searcherEditHeader ("" ${periodLabel})
+    <div class="daterange-from">
+        <label for="searcher-${previousField}">${i18n.getText('navigator.filter.constants.duedate.from')}</label>
+        <input class="text daterange-input" id="searcher-${previousField}" name="${previousField}" type="text" value="$!fieldValuesHolder.getEscaped($previousField)" />
+    </div>
+    <div class="daterange-to">
+        <label for="searcher-${nextField}">${i18n.getText('navigator.filter.constants.duedate.to')}</label>
+        <input class="text daterange-input" id="searcher-${nextField}" name="${nextField}" type="text" value="$!fieldValuesHolder.getEscaped($nextField)" />
+    </div>
+    <div class="daterange-icon">
+        <a href="#" id="searcher-${beforeField}-trigger" title="$i18n.getText('date.picker.select.date.range')" onclick="openDateRangePicker('issue-filter', 'searcher-${previousField}', 'searcher-${nextField}', '${id}');return false;">
+            <span class="aui-icon icon-range">$i18n.getText('date.picker.select.date.range')</span>
+        </a>
+    </div>
+#searcherEditFooter (${previousField} ${description})
+#end
+$!{auiparams.clear()}

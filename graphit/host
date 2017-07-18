@@ -1,0 +1,9 @@
+[all]
+172.28.128.82
+[graphite-grafana]
+172.28.128.82
+[all:vars]
+ansible_connection=ssh
+ansible_ssh_user=vagrant
+ansible_ssh_pass=vagrant 
+host_key_checking=False

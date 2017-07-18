@@ -1,0 +1,13 @@
+---
+mysql_root_password: root
+
+sonar_host: "{{ vagrant_ip }}"
+sonar_mysql_password: sonar
+sonar_mysql_allowed_hosts:
+  - "{{ sonar_host }}"
+  - 127.0.0.1
+  - ::1
+  - localhost
+
+jenkins_sonar_login: ""
+jenkins_sonar_password: ""

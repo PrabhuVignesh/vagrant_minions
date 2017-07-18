@@ -1,0 +1,58 @@
+@import "../../global.less";
+
+/* for share and watchers inline dialogs */
+form.aui.recipients-form {
+    fieldset {
+        padding: 10px;
+        margin: 0 auto;
+    }
+    .cancel {
+        position: absolute;
+        right: -15px;
+        top: 5px;
+        z-index: 101;
+    }
+}
+
+.recipients {
+    .remove-recipient {
+        cursor: pointer;
+        background: url(../../../images/icons/trash_16.gif) no-repeat 50% 50%;
+        float: right;
+        height: 24px;
+        text-indent: -9999px;
+        visibility: hidden;
+        width: 24px;
+    }
+    ol {
+        clear:both;
+        list-style-type: none;
+        margin: @grid 0 0 0;
+        overflow: hidden;
+        padding: 0;
+    }
+    li {
+        .border-box();
+        .clearfix();
+        padding: @grid/4 @grid/4 0;
+        &:hover {
+            background-color: @hoverbackgroundcolour;
+            .remove-recipient {
+                visibility: visible;
+            }
+        }
+    }
+    .user-hover {
+        float: left;
+        max-width: 174px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    img {
+        height: 22px;
+        margin-right: @grid/2;
+        vertical-align: bottom;
+        width: 22px;
+    }
+}

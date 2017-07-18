@@ -1,0 +1,72 @@
+#* @vtlvariable name="project" type="com.atlassian.jira.project.Project" *#
+#* @vtlvariable name="versions" type="java.util.Collection<com.atlassian.jira.project.version.Version>" *#
+#* @vtlvariable name="moreVersionsCount" type="int" *#
+#* @vtlvariable name="defaultDisplayCount" type="int" *#
+#* @vtlvariable name="SFM_HIDE" type="com.atlassian.jira.web.util.OutlookDate.SmartFormatterModes" *#
+#* @vtlvariable name="fragid" type="java.lang.String" *#
+#disable_html_escaping()
+<div class="mod-header">
+    <h3>$i18n.getText('browseproject.summary.unreleased.versions')</h3>
+</div>
+<div class="mod-content">
+    <table class="aui">
+        <thead>
+            <tr>
+                <th>$i18n.getText('version.name')</th>
+                <th>$i18n.getText('version.releasedate')</th>
+            </tr>
+        </thead>
+        <tbody>
+        #foreach ($version in $versions)
+            #if ($version.releaseDate)
+            <tr class="vevent">
+                <td>
+                    #versionStatus($version 16)
+                    <a class="url version summary" href="${baseurl}/browse/${project.key}/fixforversion/${version.id}">$textutils.htmlEncode($version.name)</a>
+                </td>
+                <td>
+                    <time class="date" title="$outlookdate.formatIso8601Date($version.releaseDate)">$outlookdate.formatSmart($version.releaseDate, $SFM_HIDE)</time>
+                </td>
+            </tr>
+            #else
+            <tr>
+                <td>
+                    #versionStatus($version 16)
+                    <a href="${baseurl}/browse/${project.key}/fixforversion/${version.id}" class="version">$textutils.htmlEncode($version.name)</a>
+                </td>
+                <td>
+                    <span>&nbsp;</span>
+                </td>
+            </tr>
+            #end
+        #end
+        </tbody>
+    </table>
+    #if ($versions.size() > $defaultDisplayCount)
+        #set ($CSS_LIMIT = $defaultDisplayCount - 1)
+        #set ($totalCount = ($versions.size() + $moreVersionsCount))
+        #set ($remaining = ($totalCount - $defaultDisplayCount))
+        <p id="${fragid}-showmore">
+            <a id="${fragid}-showmore-link" href="#">$i18n.getText('browseproject.and.x.more', $remaining)</a>
+        </p>
+        <p id="${fragid}-showless">
+            #if ($moreVersionsCount > 0)
+                #set ($roadMapLink = "<a href='?selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel'>$i18n.getText('common.concepts.roadmap')</a>")
+                $i18n.getText('browseproject.showing.first.x.versions', $versions.size(), $totalCount, $roadMapLink)
+                <br>
+            #end
+            <a id="${fragid}-showless-link" href="#">$i18n.getText('browseproject.show.first.x', $defaultDisplayCount)</a>
+        </p>
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                new JIRA.ToggleList({
+                    more: jQuery("#frag${fragid} table.aui tbody tr:gt(${CSS_LIMIT})"),
+                    showMoreContainer: jQuery("#${fragid}-showmore"),
+                    showLessContainer: jQuery("#${fragid}-showless"),
+                    showMoreLink: jQuery("#${fragid}-showmore-link"),
+                    showLessLink: jQuery("#${fragid}-showless-link")
+                });
+            });
+        </script>
+    #end
+</div>

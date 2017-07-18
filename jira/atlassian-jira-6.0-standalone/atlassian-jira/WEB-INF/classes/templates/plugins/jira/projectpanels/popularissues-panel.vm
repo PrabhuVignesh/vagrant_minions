@@ -1,0 +1,56 @@
+#* @vtlvariable name="popularIssues" type="java.util.List<com.atlassian.jira.issue.Issue>" *#
+#* @vtlvariable name="fieldVisibility" type="com.atlassian.jira.web.FieldVisibilityManager" *#
+#* @vtlvariable name="project" type="com.atlassian.jira.project.Project" *#
+#disable_html_escaping()
+<div class="module">
+    <div class="mod-content">
+        #if (!$popularIssues.empty)
+            <p>$i18n.getText("popularissues.description")</p>
+            <table class="aui" width="100%" id="popular_issues_table">
+                <thead>
+                    <tr>
+                        <th class="cell-type-collapsed">$i18n.getText('issue.column.heading.vote')</th>
+                        <th class="cell-type-collapsed">$i18n.getText('issue.column.heading.issuetype')</th>
+                        <th class="cell-type-collapsed">$i18n.getText('issue.column.heading.issuekey')</th>
+                        <th>$i18n.getText('issue.column.heading.summary')</th>
+                        <th class="cell-type-collapsed">$i18n.getText('issue.column.heading.fixversions')</th>
+                        <th class="cell-type-collapsed">$i18n.getText('issue.column.heading.priority')</th>
+                        <th class="cell-type-collapsed">$i18n.getText('issue.column.heading.status')</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    #foreach ($issue in $popularIssues)
+                        <tr #if($velocityCount % 2 == 0)class="rowAlternateLightGray"#end>
+                            <td class="cell-type-collapsed">$issue.getVotes()</td>
+                            <td class="cell-type-collapsed">#displayType($issue)</td>
+                            <td class="cell-type-collapsed">#displayIssueKey($issue)</td>
+                            <td>#displayIssueSummary($issue)</td>
+                            <td class="cell-type-collapsed">
+                                #if (!$fieldVisibility.isFieldHidden("fixVersions", $issue))
+                                    #set ($versions = $issue.getFixVersions())
+                                    #foreach ($version in $versions)
+                                        <a href="$baseurl/browse/${project.key}/fixforversion/${version.id}">$textutils.htmlEncode($version.getName())</a>#if ($velocityCount < $versions.size()), #end
+                                    #end
+                                #end
+                            </td>
+                            <td class="cell-type-collapsed">
+                                #if (!$fieldVisibility.isFieldHidden("priority", $issue))
+                                    #displayConstantIcon($issue.getPriorityObject())
+                                #end
+                            </td>
+                            <td class="cell-type-collapsed">
+                                #displayConstantIcon($issue.getStatusObject())
+                            </td>
+                        </tr>
+                    #end
+                </tbody>
+            </table>
+        #else
+            <div class="aui-message info">
+                <span class="aui-icon icon-info"></span>
+                <p class="title">$i18n.getText("popularissues.no.issues.title")</p>
+                <p>$i18n.getText("popularissues.no.issues.desc")</p>
+            </div>
+        #end
+    </div>
+</div>

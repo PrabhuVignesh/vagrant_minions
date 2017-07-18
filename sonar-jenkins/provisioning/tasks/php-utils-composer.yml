@@ -1,0 +1,33 @@
+---
+# Use --prefer-dist so composer won't try re-downloading every update.
+- name: Install dependencies via Composer.
+  command: >
+    /usr/local/bin/composer global require {{ item }} --prefer-dist
+  with_items: "{{ composer_global_installs }}"
+  register: composer
+  changed_when: "'Nothing to install or update' not in composer.stdout"
+  environment:
+    # Since Composer can't be run as jenkins service account, download the
+    # dependencies to Jenkins' .composer directory instead of root's.
+    COMPOSER_VENDOR_DIR: /var/lib/jenkins/.composer/vendor
+
+- name: Symlink binaries so Jenkins and Sonar Runner can see them easily.
+  file: >
+    src=/var/lib/jenkins/.composer/vendor/bin/{{ item }}
+    dest=/usr/bin/{{ item }}
+    state=link
+  with_items:
+    - pdepend
+    - phing
+    - phpcpd
+    - phpcs
+    - phpmd
+    - phpunit
+
+- name: Change ownership of entire Jenkins .composer directory.
+  file: >
+    path=/var/lib/jenkins/.composer
+    state=directory
+    owner=jenkins
+    group=jenkins
+    mode=755

@@ -1,0 +1,1 @@
+(function($){AJS.namespace("JIRA.Meta");JIRA.Meta.getLoggedInUser=function(){return{name:AJS.Meta.get("remote-user"),fullName:AJS.Meta.get("remote-user-fullname")}};JIRA.Meta.getProject=function(){return AJS.params.projectKey};JIRA.Meta.getIssueKey=function(){return AJS.Meta.get("issue-key")}}(AJS.$));

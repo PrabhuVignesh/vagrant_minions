@@ -1,0 +1,49 @@
+#* @vtlvariable name="issueTypes" type="com.atlassian.jira.web.bean.StatisticMapWrapper" *#
+#* @vtlvariable name="urlUtil" type="com.atlassian.jira.plugin.projectpanel.fragment.impl.UnresolvedIssuesByComponentFragment.ComponentUrlUtil" *#
+#* @vtlvariable name="fragid" type="java.lang.String" *#
+#disable_html_escaping()
+#if ($issueTypes)
+    #set ($LIMIT = 10)
+    #set ($irrelevantCount = $issueTypes.irrelevantCount)
+    #if ($issueTypes.isEmpty() == false || $irrelevantCount > 0)
+        <div class="mod-header">
+            <h3>$i18n.getText('common.concepts.unresolved'): $i18n.getText('common.concepts.byissuetype')</h3>
+        </div>
+        <div class="mod-content">
+            <table id="issueTypes" class="aui">
+                <thead>
+                    <tr>
+                        <th>$i18n.getText('common.concepts.issuetype')</th>
+                        <th style="width:15%;">$i18n.getText('common.concepts.issues')</th>
+                        <th style="width:30%;">$i18n.getText('common.words.percentage')</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    #foreach ($issueType in $issueTypes.keySet())
+                        <tr>
+                            #set ($newUrl = "${urlUtil.getUrl($issueType)}")
+                            <td class="name">#displayConstantIcon($issueType) <a href="${newUrl}">$textutils.htmlEncode(${issueType.getNameTranslation()})</a></td>
+                            <td class="count">$!issueTypes.get($issueType)</td>
+                            <td class="graph last">#histogram($issueTypes.getPercentage($issueType))</td>
+                        </tr>
+                    #end
+                    #if ($irrelevantCount > 0)
+                        <tr>
+                            <td class="name"><span title="$i18n.getText('common.concepts.irrelevant.desc')">$i18n.getText('common.concepts.irrelevant')</span></td>
+                            <td class="count">$irrelevantCount</td>
+                            <td class="graph last">#histogram($issueTypes.irrelevantPercentage)</td>
+                        </tr>
+                    #end
+                </tbody>
+            </table>
+            <p><a id="frag${fragid}_more" href="${urlUtil.getAllUrl()}">$i18n.getText('common.concepts.view.issues')</a></p>
+        </div>
+    #else
+        <div class="mod-header">
+            <h3>$i18n.getText('common.concepts.unresolved'): $i18n.getText('common.concepts.byissuetype')</h3>
+        </div>
+        <div class="mod-content">
+            <p>$i18n.getText('common.concepts.noissues')</p>
+        </div>
+    #end
+#end

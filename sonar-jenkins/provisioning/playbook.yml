@@ -1,0 +1,35 @@
+---
+# Drupal CI server with Jenkins and SonarQube.
+#
+# @author Jeff Geerling, 2014
+- hosts: drupalci
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Ensure unzip is installed.
+      yum: name=unzip state=present
+
+  roles:
+    - geerlingguy.firewall
+    - geerlingguy.repo-epel
+    - geerlingguy.repo-remi
+    - geerlingguy.ntp
+    - geerlingguy.munin-node
+    - geerlingguy.git
+    - geerlingguy.java
+    - geerlingguy.jenkins
+    - geerlingguy.php
+    - geerlingguy.composer
+    - geerlingguy.sonar-runner
+    - geerlingguy.sonar
+
+  tasks:
+    - include: tasks/php-utils-composer.yml
+    - include: tasks/drupal-cs.yml
+    - include: tasks/jenkins-setup.yml
+    - include: tasks/sonar-php.yml
+
+    - name: Ensure Apache is not running.
+      service: name=httpd state=stopped

@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
+
+Vagrant.configure('2') do |config|
+	config.vm.box = 'ungolianth/sonar'
+
+	config.vm.hostname = 'sonarqube'
+	config.vm.box_check_update = false
+
+
+	config.vm.network "private_network", ip: "172.28.128.84"
+	config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents", type: "nfs"
+
+
+	config.vm.provider :virtualbox do |vb|
+		vb.linked_clone = true
+		vb.memory = 2048
+		vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
+	end
+
+	#config.vm.provision :shell, path: 'provision.sh'
+end

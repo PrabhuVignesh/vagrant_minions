@@ -1,0 +1,77 @@
+@import "../colours";
+
+// Borders
+// -------------------------
+.bordered (@width: 1px, @style: solid, @colour: @bordercolour) {
+    border: @width @style @colour;
+}
+.bordered (@colour) when (iscolor(@colour)) {
+    .bordered(1px, solid, @colour);
+}
+.bordered (@top, @right, @bottom, @left) {
+    .bordered();
+    border-width: @top @right @bottom @left;
+}
+.bordered (@top, @right, @bottom, @left, @style, @colour) {
+    .bordered(1px, @style, @colour);
+    border-width: @top @right @bottom @left;
+}
+.border-top (@colour: @bordercolour) {
+    border-top: 1px solid @colour;
+}
+.border-right (@colour: @bordercolour) {
+    border-right: 1px solid @colour;
+}
+.border-bottom (@colour: @bordercolour) {
+    border-bottom: 1px solid @colour;
+}
+.border-left (@colour: @bordercolour) {
+    border-left: 1px solid @colour;
+}
+
+// Border-radius
+// -------------------------
+@default-border-radius: 5px;
+
+.border-bottom-left-radius(@radius: @default-border-radius) {
+    -moz-border-radius-bottomleft: @radius;
+    border-bottom-left-radius: @radius;
+}
+
+.border-bottom-right-radius(@radius: @default-border-radius) {
+    -moz-border-radius-bottomright: @radius;
+    border-bottom-right-radius: @radius;
+}
+
+.border-top-left-radius(@radius: @default-border-radius) {
+    -moz-border-radius-topleft: @radius;
+    border-top-left-radius: @radius;
+}
+
+.border-top-right-radius(@radius: @default-border-radius) {
+    -moz-border-radius-topright: @radius;
+    border-top-right-radius: @radius;
+}
+
+.border-left-radius(@radius: @default-border-radius) {
+    .border-bottom-left-radius(@radius);
+    .border-top-left-radius(@radius);
+}
+
+.border-right-radius(@radius: @default-border-radius) {
+    .border-bottom-right-radius(@radius);
+    .border-top-right-radius(@radius);
+}
+
+.border-radius(@radius) {
+    .border-radius(@radius, @radius, @radius, @radius);
+}
+
+.border-radius(@radius-tl, @radius-tr, @radius-br, @radius-bl) {
+    -moz-border-radius: @radius-tl @radius-tr @radius-br @radius-bl;
+    border-radius: @radius-tl @radius-tr @radius-br @radius-bl;
+}
+
+.rounded(@radius-tl: @default-border-radius, @radius-tr: @default-border-radius, @radius-br: @default-border-radius, @radius-bl: @default-border-radius) {
+    .border-radius(@radius-tl, @radius-tr, @radius-br, @radius-bl);
+}

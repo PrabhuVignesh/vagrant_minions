@@ -1,0 +1,47 @@
+#* @vtlvariable name="simpleLinkManager" type="com.atlassian.jira.plugin.webfragment.SimpleLinkManager" *#
+#* @vtlvariable name="user" type="com.atlassian.crowd.embedded.api.User" *#
+#* @vtlvariable name="helper" type="com.atlassian.jira.plugin.webfragment.model.JiraHelper" *#
+#* @vtlvariable name="contextType" type="java.lang.String" *#
+<div class="mod-content">
+    <div class="aui-group issue-filter-links">
+        #renderColumn ('system.preset.filters.column.one' $user $helper)
+        #renderColumn ('system.preset.filters.column.two' $user $helper)
+        #renderColumn ('system.preset.filters.column.three' $user $helper)
+        #renderColumn ('system.preset.filters.column.four' $user $helper)
+    </div>
+</div>
+
+<script>
+    AJS.$(function () {
+        if (AJS.HelpTip) {
+            var helptip = new AJS.HelpTip({
+                id: "view.all.issues",
+                title: "$i18n.getText('helptips.view.all.issues.title')",
+                bodyHtml: "$i18n.getText('helptips.view.all.issues.body')",
+                anchor: "#filter_all"
+            });
+            var dismiss = function () {
+                helptip.view.dismiss();
+            };
+            JIRA.Project.navigationTabs.addUnloadEvent("issues-panel-panel", dismiss);
+            JIRA.Project.navigationTabs.addUnloadEvent("version-issues-panel-panel", dismiss);
+            JIRA.Project.navigationTabs.addUnloadEvent("component-issues-panel-panel", dismiss);
+            helptip.show();
+        }
+    });
+</script>
+
+#macro (renderColumn $sectionKey $user $helper)
+    #set ($displayableItems = $simpleLinkManager.getLinksForSection($sectionKey, $user, $helper))
+    #if (!$displayableItems.isEmpty())
+        <div class="aui-item">
+            <ul class="aui-nav">
+                #foreach ($item in $displayableItems)
+                    <li>
+                        <a class="issue-filter-link" data-type="$contextType" id="$item.id" href="$item.url">$item.label</a>
+                    </li>
+                #end
+            </ul>
+        </div>
+    #end
+#end

@@ -1,0 +1,161 @@
+@import "_SelectMixins.less";
+
+.check-list-select {
+    width: 250px;
+    .check-list-field-container {
+        .border-box();
+        position: relative;
+        padding:5px 10px 9px;
+        overflow: hidden;
+        .check-list-field {
+            .border-box();
+            .rounded(3px,3px,3px,3px);
+            position: relative;
+            z-index:1;
+            width:100%;
+            min-height:28px;
+            height:0;
+            .bordered;
+            padding:0 24px 0 6px;
+            -webkit-box-shadow: #bbb 0 7px 2px -7px inset;
+            -moz-box-shadow: #bbb 0 7px 2px -7px inset;
+            box-shadow: #bbb 0 7px 2px -7px inset;
+            margin: 0;
+            font-size: 14px;
+            font-family: inherit;
+
+            &::-ms-clear { //JRADEV-17689 IE10 trying to be clever. Adding a 'fix' to make it dumber.
+                display: none;
+            }
+        }
+        .icon {
+            position: absolute;
+            top: 11px;
+            right: 15px;
+            z-index: 2;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAAEgAAABIAEbJaz4AAACvSURBVBjTY/gPAl8/fv37HwIYgPjz5trU8uVP4AKfe5OmrltZUXoZKvB3U+LWn///P2msfw8R+FI59f//v3//XyreCxH4kLoVyP/772fpCojAx5yNIIG/38q3QAR+T238DmIdrn0CteVq+vQn//+erFgMs/bfgbza/p7i3M47MIf9v7msa/HVOVmNN2ECYPBlekbddWSB/1+mppU+RRb4/2XipLcoAv+/fv2PKgACAOD64VAKNhVFAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA4LTMwVDA4OjU1OjM2KzAyOjAwhDmedwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMi0wOC0zMFQwODo1NTozNiswMjowMPVkJssAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAAAElFTkSuQmCC) no-repeat 0 0;
+            &.noloading.clear-field {
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAUElEQVR42sWTQQoAIAgEe2ef6smW1wb0MEHBXtp1QLMREUpvAefMFIKFf5srBUjhI4AQPAJKCO/YQgdhMQGE9MUe4FvwQ/TP6BfJr/L/37gBAXQVT6UvFQUAAAAASUVORK5CYII=);
+                cursor: pointer;
+                opacity: 0.7;
+                -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+            }
+        }
+    }
+
+    .aui-list-scroll {
+        max-height: 270px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        clear: both;
+        h5 {
+            padding-left: 10px;
+        }
+        .no-suggestions {
+            padding: 7px 11px 6px;
+            background: #f2f2f2;
+        }
+    }
+
+    .check-list-group-actions {
+        padding: 5px 10px;
+        .clear-all {
+            color:  @jira-color-link;
+            &:visited,
+            &:hover {
+                color:  @jira-color-link;
+            }
+            &:hover {
+                text-decoration:  underline;
+            }
+        }
+    }
+
+    .check-list-group-footer {
+        padding:2px 10px;
+    }
+
+    .clear-all.disabled {
+        opacity:0.5;
+    }
+
+    .check-list-buttons-container {
+        .border-top (@subtlebordercolour);
+        padding-top: 7px;
+        padding-right: 10px;
+        margin-bottom: 2px; /* Override form.aui .buttons-container */
+        text-align: right;
+        .disabled {
+            display: inline-block;
+            cursor: default;
+            text-decoration: none;
+            opacity: .5;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        }
+    }
+}
+
+form#issue-filter .check-list-item, .check-list-item, .check-list-group-footer {
+    padding:6px 10px;
+    position:relative;
+    &.disabled {
+        color:#888;
+        font-style: italic;
+        em {
+            font-style: italic;
+        }
+    }
+    label {
+        clear:none;
+        color: inherit;
+        display: block;
+        left:0;
+        line-height: 1.4;
+        margin:0;
+        overflow: hidden;
+        padding:0;
+        position: static;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width:auto;
+        input[type="checkbox"] {
+            margin-right:6px;
+        }
+        img {
+            margin-right:5px;
+            vertical-align: text-top;
+        }
+        em {
+            font-weight: bold;
+            font-style: normal;
+        }
+
+    }
+    &.active {
+        background-color: #EAF1FD;
+    }
+}
+
+form#issue-filter .check-list-select {
+    width: 250px
+}
+
+.msie .check-list-select .check-list-item label {
+    word-wrap: normal;
+}
+
+.msie-8 .check-list-select .check-list-field-container .check-list-field {
+    min-height: 26px;
+    line-height: 26px;
+}
+
+/* override - bleurgh */
+form#issue-filter .check-list-select input[type="checkbox"] {
+    margin-right: 6px;
+}
+
+/* TODO - remove this after multi-select class has been stripped from the sparkler */
+form#issue-filter .multi-select.check-list-select {
+    width:100%;
+}
+

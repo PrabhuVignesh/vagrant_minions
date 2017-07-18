@@ -1,0 +1,68 @@
+#* @vtlvariable name="component" type="com.atlassian.jira.bc.project.component.ProjectComponentImpl" *#
+#* @vtlvariable name="components" type="java.util.List" *#
+#* @vtlvariable name="tabpanel" type="com.atlassian.jira.plugin.projectpanel.impl.ComponentsProjectTabPanel" *#
+#disable_html_escaping()
+#set ($returnUrl = $velocityhelper.urlencode("/browse/${project.key}?selectedTab=com.atlassian.jira.plugin.system.project:components-panel"))
+<div class="aui-page-header">
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h2>$i18n.getText('common.concepts.components')</h2>
+        </div>
+        #if ($hasAdminPermission)
+        <div class="aui-page-header-actions">
+            <a id="add_component" class="aui-button" href="$baseurl/plugins/servlet/project-config/$textutils.htmlEncode($project.key)/components" title="$textutils.htmlEncode($i18n.getText('admin.projects.addcomponent.mouseover', $project.name))">
+                $i18n.getText('browseproject.components.manage')
+            </a>
+        </div>
+        #end
+    </div>
+</div>
+
+<div class="module">
+    <div class="mod-content">
+        <table class="aui" id="components_panel">
+            <thead>
+                <tr>
+                    <th class="cell-type-icon"></th>
+                    <th>$i18n.getText('common.concepts.component')</th>
+                    <th>$i18n.getText('common.concepts.lead')</th>
+                    <th>$i18n.getText('common.concepts.description')</th>
+                </tr>
+            </thead>
+            <tbody>
+            #if ($components.empty == true)
+                <tr>
+                    <td colspan="3">$i18n.getText('projectpanels.components.no.components')</td>
+                </tr>
+            #else
+                #foreach ($component in $components)
+                    #set ($name = "#esc($component.name)")
+                    #if ($component.description && $component.description != '')
+                        #set ($title = "$name - #esc($component.description)")
+                    #else
+                        #set ($title = $name)
+                    #end
+                    <tr>
+                        <td class="cell-type-icon">
+                            <span class="aui-icon jira-icon-components"></span>
+                        </td>
+                        <td>
+                            <a id="component_${component.id}" title="$title" href="$baseurl/browse/${project.key}/component/${component.id}">$name</a>
+                        </td>
+                        <td>
+                            #if ($component.lead)
+                                #if ($tabpanel.isUserExists($component.lead))
+                                    $userformat.formatUserkey($component.lead, 'profileLinkWithAvatar', 'component_lead')
+                                #else
+                                    <span class="errLabel">#esc($!component.lead)</span>
+                                #end
+                            #end
+                        </td>
+                        <td>#esc($!component.description)</td>
+                    </tr>
+                #end
+            #end
+            </tbody>
+        </table>
+    </div>
+</div>

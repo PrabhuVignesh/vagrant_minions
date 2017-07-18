@@ -1,0 +1,1 @@
+AJS.ContentRetriever=Class.extend({startingRequest:jQuery.noop,finishedRequest:jQuery.noop,cache:jQuery.noop,isLocked:jQuery.noop,content:jQuery.noop});

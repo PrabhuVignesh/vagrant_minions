@@ -1,0 +1,25 @@
+@import "../../../ui/global.less";
+
+#content > .aui-page-header,
+#content > header > .aui-page-header {
+
+    .aui-page-header-actions {
+        > * { // To ensure everything lines up nicely -- e.g., UPM + .aui-button + .aui-buttons
+            display: inline-block;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+            vertical-align: top;
+        }
+    }
+
+    #upm-notifications {
+        display: inline-block;
+        float: none; // undo UPM's own styles.
+        position: relative;
+
+        #upm-notifications-trigger {
+            position: relative; // so that it's placed in the page flow
+        }
+    }
+}

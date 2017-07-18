@@ -1,0 +1,6 @@
+Modified by Atlassian
+
+fvlogger v1.0
+(c) 2005 davidfmiller
+http://www.fivevoltlogic.com/code/fvlogger/
+see readme.txt for documentation
