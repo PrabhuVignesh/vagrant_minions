@@ -2,17 +2,22 @@
 # vi: set ft=ruby :
 # Copyright 2016 Prabhu Vignesh Kumar Rajagopal <prabhu.vignesh1990@gmail.com>
 
+
 Vagrant.configure(2) do |config|
 
-  config.vm.hostname = "chef"
-  config.vm.box = "ubuntu/trusty64"
+  #config.vm.box = "Sliim/kali-linux-2.0-amd64"
+  config.vm.box = "kalilinux"
+  config.vm.hostname = "kalilinux"
   config.vm.box_check_update = false
+
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.synced_folder "/home/vicky/Documents", "/home/vicky/Documents"
 
-  config.vm.network "private_network", ip: "172.28.128.12"
+  config.vm.network "private_network", ip: "172.28.128.11"
 
-  # config.vm.network "public_network"
+
+ # config.vm.network "public_network"
+
+config.vm.synced_folder "C:\\Users\\prabhukumar\\Documents\\workspace", "/home/vicky/Documents", type: "nfs"
 
   # config.vm.provider "virtualbox" do |vb|
   #   vb.gui = true
